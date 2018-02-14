@@ -11,14 +11,6 @@ func pay(payChan, recChan, returnChan chan BankAccount, amount int) {
 	returnChan <- receiver
 }
 
-func widthdraw() {
-
-}
-
-func deposit() {
-
-}
-
 //git init
 //git add README.md
 //git commit -m "first commit"
