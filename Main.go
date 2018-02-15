@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
 
@@ -9,6 +12,8 @@ func main() {
 		"Stijn",
 		100,
 		make(map[int]int),
+		"Stijn001",
+
 	}
 
 	accountKoen := BankAccount{
@@ -16,8 +21,10 @@ func main() {
 		"Koen",
 		100,
 		make(map[int]int),
+		"Koen002",
 	}
-
+	 var username, password string
+	 var choice, amount  int
 /*	payChan := make(chan BankAccount)
 	recChan := make(chan BankAccount)
 	returnChan := make(chan BankAccount)
@@ -29,11 +36,36 @@ func main() {
 
 	fmt.Println(<-returnChan)
 	fmt.Println(<-returnChan)*/
+	username, password = login()
 
-	accountKoen.pay(&accountStijn, 50)
+	if (accountKoen.holder == username && accountKoen.password == password || accountStijn.holder == username && accountStijn.password == password) {
 
-	fmt.Println(accountStijn, accountKoen)
+		for   {
+			fmt.Println("1) Overschrijven")
+			fmt.Println("2) Geschiedenis")
+			fmt.Println("3) Exit")
+			fmt.Print("Maak uw kauze: ")
+			fmt.Scan(&choice)
 
+			switch choice {
+			case 1:
+				fmt.Print("Bedrag: ")
+				fmt.Scan(&amount)
+				if (username == "Koen") {
+					accountKoen.pay(&accountStijn, amount)
+					fmt.Println(accountStijn, accountKoen)
+				}else {
+					accountStijn.pay(&accountKoen, amount)
+					fmt.Println(accountStijn, accountKoen)
+				}
+			case 2:
+			case 3: os.Exit(0)
+			}
+			fmt.Println()
+		}
+
+
+	}
 
 }
 
@@ -42,6 +74,19 @@ type BankAccount struct {
 	holder string
 	balance int
 	history map[int]int
+	password string
+}
+
+func login()(string,string){
+
+	var username, password string
+
+	fmt.Print("Gebruikersnaam: ")
+	fmt.Scan(&username)
+	fmt.Print("Wachtwoord: ")
+	fmt.Scan(&password)
+
+	return username,password
 }
 
 func (bankAccount *BankAccount) withdraw(amount int) {
