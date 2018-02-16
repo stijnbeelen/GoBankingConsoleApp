@@ -1,15 +1,18 @@
 package main
 
-import "fmt"
-
-
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
-	go accountStijn.deposit(50)
-	go accountStijn.withdraw(50)
-	go accountStijn.deposit(25)
-	go accountKoen.withdraw(50)
+	go accountStijn.pay(&accountKoen, 50)
+	go accountKoen.pay(&accountStijn, 15)
+	go accountStijn.deposit(5)
 
-	fmt.Println(accountStijn, accountKoen)
+	time.Sleep(time.Second)
+
+	fmt.Println(accountStijn)
+	fmt.Println(accountKoen)
 }

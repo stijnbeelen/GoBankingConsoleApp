@@ -1,5 +1,7 @@
 package main
 
+import "sync"
+
 var accountStijn = BankAccount{
 	001,
 	"Stijn",
@@ -15,3 +17,5 @@ var accountKoen = BankAccount{
 	make(map[int]int),
 	"Koen002",
 }
+
+var mux = sync.Mutex{}

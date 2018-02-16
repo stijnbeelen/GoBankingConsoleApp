@@ -9,11 +9,15 @@ type BankAccount struct {
 }
 
 func (bankAccount *BankAccount) withdraw(amount int) {
+	mux.Lock()
 	bankAccount.balance -= amount
+	mux.Unlock()
 }
 
 func (bankAccount *BankAccount) deposit(amount int) {
+	mux.Lock()
 	bankAccount.balance +=  amount
+	mux.Unlock()
 }
 
 func (payer *BankAccount) pay (receiver *BankAccount, amount int) {
