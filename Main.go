@@ -5,53 +5,43 @@ import (
 	"os"
 )
 
-func main() {
+var accountStijn = BankAccount{
+	001,
+	"Stijn",
+	100,
+	make(map[int]int),
+	"Stijn001",
+}
 
-	accountStijn := BankAccount{
-		001,
-		"Stijn",
-		100,
-		make(map[int]int),
-		"Stijn001",
+var accountKoen = BankAccount{
+	002,
+	"Koen",
+	100,
+	make(map[int]int),
+	"Koen002",
+}
 
-	}
+/*func main() {
 
-	accountKoen := BankAccount{
-		002,
-		"Koen",
-		100,
-		make(map[int]int),
-		"Koen002",
-	}
-	 var username, password string
-	 var choice, amount  int
-/*	payChan := make(chan BankAccount)
-	recChan := make(chan BankAccount)
-	returnChan := make(chan BankAccount)
+	var username, password string
+	var choice, amount  int
 
-	payChan <- accountKoen
-	recChan <- accountStijn
-
-	pay(payChan,recChan, returnChan, 20)
-
-	fmt.Println(<-returnChan)
-	fmt.Println(<-returnChan)*/
 	username, password = login()
 
-	if (accountKoen.holder == username && accountKoen.password == password || accountStijn.holder == username && accountStijn.password == password) {
+	if accountKoen.holder == username && accountKoen.password == password || accountStijn.holder == username && accountStijn.password == password {
 
 		for   {
 			fmt.Println("1) Overschrijven")
 			fmt.Println("2) Geschiedenis")
 			fmt.Println("3) Exit")
-			fmt.Print("Maak uw kauze: ")
+			fmt.Print("Maak uw keuze: ")
 			fmt.Scan(&choice)
 
 			switch choice {
 			case 1:
 				fmt.Print("Bedrag: ")
 				fmt.Scan(&amount)
-				if (username == "Koen") {
+				if username == "Koen" {
 					accountKoen.pay(&accountStijn, amount)
 					fmt.Println(accountStijn, accountKoen)
 				}else {
@@ -67,7 +57,7 @@ func main() {
 
 	}
 
-}
+}*/
 
 type BankAccount struct {
 	accountNumber int
