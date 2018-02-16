@@ -19,3 +19,4 @@ var accountKoen = BankAccount{
 }
 
 var mux = sync.Mutex{}
+var wg = sync.WaitGroup{}

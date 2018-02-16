@@ -6,7 +6,6 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
 	//wg.Add(5)
 	//
 	//go accountStijn.pay(&accountKoen, 50, &wg)
