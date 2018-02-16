@@ -19,6 +19,9 @@ func main() {
 
 	wg.Wait()
 
+	// for using Locks instead of waitgroup
+	//time.Sleep(time.Second)
+
 	fmt.Println(accountStijn)
 	fmt.Println(accountKoen)
 }

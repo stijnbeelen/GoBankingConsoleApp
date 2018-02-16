@@ -11,11 +11,17 @@ type BankAccount struct {
 }
 
 func (bankAccount *BankAccount) withdraw(amount int, wg *sync.WaitGroup) {
+	// for using Locks instead of waitgroup
+	//mux.Lock()
+	//defer mux.Unlock()
 	defer wg.Done()
 	bankAccount.balance -= amount
 }
 
 func (bankAccount *BankAccount) deposit(amount int, wg *sync.WaitGroup) {
+	// for using Locks instead of waitgroup
+	//mux.Lock()
+	//defer mux.Unlock()
 	defer wg.Done()
 	bankAccount.balance +=  amount
 }
