@@ -16,6 +16,10 @@ func main() {
 	pay(&accountStijn, &accountKoen, 50, &wg)
 	pay(&accountKoen, &accountStijn, 15, &wg)
 	deposit(&accountStijn, 5, &wg)
+	withdraw(&accountKoen, 35, &wg)
+
+	// -> uitkomst: koen = 100
+	// -> uitkomst: stijn = 70
 
 	wg.Wait()
 
@@ -36,7 +40,7 @@ func deposit(account *BankAccount, amount int, wg *sync.WaitGroup) {
 	go account.deposit(amount, wg)
 }
 
-func withdraw(account BankAccount, amount int, wg *sync.WaitGroup) {
+func withdraw(account *BankAccount, amount int, wg *sync.WaitGroup) {
 	wg.Add(1)
 	go account.withdraw(amount, wg)
 }
