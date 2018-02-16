@@ -1,5 +1,7 @@
 package main
 
+import "sync"
+
 type BankAccount struct {
 	accountNumber int
 	holder string
@@ -8,19 +10,17 @@ type BankAccount struct {
 	password string
 }
 
-func (bankAccount *BankAccount) withdraw(amount int) {
-	mux.Lock()
+func (bankAccount *BankAccount) withdraw(amount int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	bankAccount.balance -= amount
-	mux.Unlock()
 }
 
-func (bankAccount *BankAccount) deposit(amount int) {
-	mux.Lock()
+func (bankAccount *BankAccount) deposit(amount int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	bankAccount.balance +=  amount
-	mux.Unlock()
 }
 
-func (payer *BankAccount) pay (receiver *BankAccount, amount int) {
-	payer.withdraw(amount)
-	receiver.deposit(amount)
+func (payer *BankAccount) pay (receiver *BankAccount, amount int, wg *sync.WaitGroup) {
+	payer.withdraw(amount, wg)
+	receiver.deposit(amount, wg)
 }
