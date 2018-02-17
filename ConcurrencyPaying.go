@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sync"
 )
 
@@ -21,40 +22,48 @@ func main() {
 	// for using Locks instead of waitgroup
 	//time.Sleep(time.Second)
 
+	accDepChan := make(chan *BankAccount) //account deposit chan
+	accWitChan := make(chan *BankAccount) //account withdraw chan
 
-	accDepChan := make(chan *BankAccount)		//account deposit chan
-	accWitChan := make(chan *BankAccount)		//account withdraw chan
-
-	amDepChan := make(chan int)					//amount deposit chan
-	amWitChan := make(chan int)					//amount withdraw chan
-
+	amDepChan := make(chan int) //amount deposit chan
+	amWitChan := make(chan int) //amount withdraw chan
 
 	go deposit(accDepChan, amDepChan)
 	go withdraw(accWitChan, amWitChan)
 
-	accDepChan <- &accountStijn
-	amDepChan <- 50
-	accWitChan <- &accountKoen
-	amWitChan <- 50
+	var choice, amount int
 
-	fmt.Println(*<-accDepChan)
-	fmt.Println(*<-accWitChan)
+	for {
+		fmt.Println("1) Deposit")
+		fmt.Println("2) Withdraw")
+		fmt.Println("3) Exit")
+		fmt.Print("Maak uw keuze: ")
+		fmt.Scan(&choice)
 
-	accDepChan <- &accountStijn
-	amDepChan <- 25
-	accWitChan <- &accountKoen
-	amWitChan <- 25
+		switch choice {
+		case 1:
+			fmt.Print("Bedrag: ")
+			fmt.Scan(&amount)
+			accDepChan <- &accountStijn
+			amDepChan <- amount
+			fmt.Println(accountStijn)
+		case 2:
+			fmt.Print("Bedrag: ")
+			fmt.Scan(&amount)
+			accWitChan <- &accountStijn
+			amWitChan <- amount
+			fmt.Println(accountStijn)
+		case 3:
+			os.Exit(0)
+		}
 
-	fmt.Println(*<-accDepChan)
-	fmt.Println(*<-accWitChan)
-
+	}
 }
 
 func deposit(accChan chan *BankAccount, amChan chan int) {
 	for true {
 		ba := <-accChan
 		ba.balance += <-amChan
-		accChan <- ba
 	}
 }
 
@@ -62,11 +71,10 @@ func withdraw(accChan chan *BankAccount, amChan chan int) {
 	for true {
 		ba := <-accChan
 		ba.balance -= <-amChan
-		accChan <- ba
 	}
 }
 
-func pay (payerAccount, receiverAccount *BankAccount, amount int, wg *sync.WaitGroup) {
+func pay(payerAccount, receiverAccount *BankAccount, amount int, wg * sync.WaitGroup) {
 	wg.Add(2)
 	go payerAccount.pay(receiverAccount, amount, wg)
 }
@@ -80,5 +88,3 @@ func pay (payerAccount, receiverAccount *BankAccount, amount int, wg *sync.WaitG
 //	wg.Add(1)
 //	go account.withdraw(amount, wg)
 //}
-
-
