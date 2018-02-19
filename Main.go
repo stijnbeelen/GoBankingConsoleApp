@@ -45,7 +45,6 @@ import (
 
 func main() {
 
-	//waitgroup
 	//go pay(&accountStijn, &accountKoen, 50, &wg)
 	//go pay(&accountKoen, &accountStijn, 15, &wg)
 	//go deposit(&accountStijn, 5, &wg)
@@ -59,14 +58,14 @@ func main() {
 	// for using Locks instead of waitgroup
 	//time.Sleep(time.Second)
 
-	accDepChan := make(chan *BankAccount) //account deposit chan
-	accWitChan := make(chan *BankAccount) //account withdraw chan
+	accountDepositChannel := make(chan *BankAccount)  	//account deposit chan
+	accountWithdrawChannel := make(chan *BankAccount) 	//account withdraw chan
 
-	amDepChan := make(chan int) //amount deposit chan
-	amWitChan := make(chan int) //amount withdraw chan
+	amountDepositChannel := make(chan int)  			//amount deposit chan
+	amountWithdrawChannel := make(chan int) 			//amount withdraw chan
 
-	go deposit(accDepChan, amDepChan)
-	go withdraw(accWitChan, amWitChan)
+	go deposit(accountDepositChannel, amountDepositChannel)
+	go withdraw(accountWithdrawChannel, amountWithdrawChannel)
 
 	var choice, amount int
 
@@ -81,14 +80,14 @@ func main() {
 		case 1:
 			fmt.Print("Bedrag: ")
 			fmt.Scan(&amount)
-			accDepChan <- &accountStijn
-			amDepChan <- amount
+			accountDepositChannel <- &accountStijn
+			amountDepositChannel <- amount
 			fmt.Println(accountStijn)
 		case 2:
 			fmt.Print("Bedrag: ")
 			fmt.Scan(&amount)
-			accWitChan <- &accountStijn
-			amWitChan <- amount
+			accountWithdrawChannel <- &accountStijn
+			amountWithdrawChannel <- amount
 			fmt.Println(accountStijn)
 		case 3:
 			os.Exit(0)
@@ -97,14 +96,24 @@ func main() {
 	}
 }
 
-func login()(string,string){
+//func login()(string,string){
+//
+//	var username, password string
+//
+//	fmt.Print("Gebruikersnaam: ")
+//	fmt.Scan(&username)
+//	fmt.Print("Wachtwoord: ")
+//	fmt.Scan(&password)
+//
+//	return username,password
+//}
 
-	var username, password string
+func login() (username, password string) {
 
 	fmt.Print("Gebruikersnaam: ")
 	fmt.Scan(&username)
 	fmt.Print("Wachtwoord: ")
 	fmt.Scan(&password)
 
-	return username,password
-}
+	return
+	}

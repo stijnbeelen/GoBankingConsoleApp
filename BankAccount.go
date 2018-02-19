@@ -30,14 +30,15 @@ func (payer *BankAccount) pay (receiver *BankAccount, amount int, wg *sync.WaitG
 	receiver.deposit(amount, wg)
 }
 
-func deposit(accChan chan *BankAccount, amChan chan int) {
+func deposit(accChan chan *BankAccount, amChan <-chan int) {
 	for true {
 		ba := <-accChan
 		ba.balance += <-amChan
 	}
+	//rest of program
 }
 
-func withdraw(accChan chan *BankAccount, amChan chan int) {
+func withdraw(accChan chan *BankAccount, amChan <-chan int) {
 	for true {
 		ba := <-accChan
 		ba.balance -= <-amChan
