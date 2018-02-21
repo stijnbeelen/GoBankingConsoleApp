@@ -6,7 +6,6 @@ type BankAccount struct {
 	accountNumber int
 	holder string
 	balance int
-	history map[int]int
 	password string
 }
 
@@ -35,7 +34,6 @@ func deposit(accChan chan *BankAccount, amChan <-chan int) {
 		ba := <-accChan
 		ba.balance += <-amChan
 	}
-	//rest of program
 }
 
 func withdraw(accChan chan *BankAccount, amChan <-chan int) {

@@ -67,46 +67,51 @@ func main() {
 	go deposit(accountDepositChannel, amountDepositChannel)
 	go withdraw(accountWithdrawChannel, amountWithdrawChannel)
 
+	var username, password string
+	username, password = login()
+
 	var choice, amount int
 
-	for {
-		fmt.Println("1) Deposit")
-		fmt.Println("2) Withdraw")
-		fmt.Println("3) Exit")
-		fmt.Print("Maak uw keuze: ")
-		fmt.Scan(&choice)
+	if accountKoen.holder == username && accountKoen.password == password || accountStijn.holder == username && accountStijn.password == password {
 
-		switch choice {
-		case 1:
-			fmt.Print("Bedrag: ")
-			fmt.Scan(&amount)
-			accountDepositChannel <- &accountStijn
-			amountDepositChannel <- amount
-			fmt.Println(accountStijn)
-		case 2:
-			fmt.Print("Bedrag: ")
-			fmt.Scan(&amount)
-			accountWithdrawChannel <- &accountStijn
-			amountWithdrawChannel <- amount
-			fmt.Println(accountStijn)
-		case 3:
-			os.Exit(0)
+		for {
+			fmt.Println("1) Deposit")
+			fmt.Println("2) Withdraw")
+			fmt.Println("3) Exit")
+			fmt.Print("Maak uw keuze: ")
+			fmt.Scan(&choice)
+
+			switch choice {
+			case 1:
+				fmt.Print("Bedrag: ")
+				fmt.Scan(&amount)
+				switch username {
+				case "Stijn":
+					accountDepositChannel <- &accountStijn
+				case "Koen":
+					accountDepositChannel <- &accountKoen
+				}
+				amountDepositChannel <- amount
+				fmt.Println(accountStijn, accountKoen)
+			case 2:
+				fmt.Print("Bedrag: ")
+				fmt.Scan(&amount)
+				switch username {
+				case "Stijn":
+					accountWithdrawChannel <- &accountStijn
+				case "Koen":
+					accountWithdrawChannel <- &accountKoen
+				}
+				amountWithdrawChannel <- amount
+				fmt.Println(accountStijn, accountKoen)
+			case 3:
+				os.Exit(0)
+			}
+
 		}
-
 	}
-}
 
-//func login()(string,string){
-//
-//	var username, password string
-//
-//	fmt.Print("Gebruikersnaam: ")
-//	fmt.Scan(&username)
-//	fmt.Print("Wachtwoord: ")
-//	fmt.Scan(&password)
-//
-//	return username,password
-//}
+}
 
 func login() (username, password string) {
 
