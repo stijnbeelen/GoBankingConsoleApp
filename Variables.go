@@ -1,7 +1,5 @@
 package main
 
-import "sync"
-
 var accountStijn = BankAccount{
 	001,
 	"Stijn",
@@ -15,6 +13,3 @@ var accountKoen = BankAccount{
 	100,
 	"Koen002",
 }
-
-var mux = sync.Mutex{}
-var wg = sync.WaitGroup{}
